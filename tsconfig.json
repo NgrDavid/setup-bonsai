@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "target": "es2022",
+    "module": "node18",
+    "esModuleInterop": true,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Strictness
+    "strict": true,
+    "allowUnreachableCode": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+  },
+
+  "include": ["src/**/*"],
+}
