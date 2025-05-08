@@ -33,6 +33,8 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const Util = __importStar(require("./util"));
+const util = __importStar(require("./util"));
+const core = __importStar(require("@actions/core"));
 console.log("Hello from main!");
-Util.test();
+console.log(`Environment paths: '${core.getInput('environment-path', { required: true })}'`);
+util.test();

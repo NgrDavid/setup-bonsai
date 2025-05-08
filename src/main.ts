@@ -1,4 +1,6 @@
-import * as Util from './util'
+import * as util from './util';
+import * as core from '@actions/core';
 
 console.log("Hello from main!");
-Util.test();
+console.log(`Environment paths: '${core.getInput('environment-path', { required: true })}'`);
+util.test();
