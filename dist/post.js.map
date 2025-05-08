@@ -1,6 +1,6 @@
 {
   "version": 3,
   "sources": ["../src/post.ts"],
-  "mappings": "aAAA,QAAQ,IAAI,qBAAqB",
+  "mappings": "aAAA,QAAQ,IAAI,qBAAqB,EACjC,KAAM",
   "names": []
 }
