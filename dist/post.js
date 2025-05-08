@@ -1,3 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-console.log("Post action script!");
+"use strict";console.log("Post action script!");
+//# sourceMappingURL=post.js.map
