@@ -1,2 +1,7 @@
 console.log("Post action script!");
-throw Error("AW HECK");
+
+function lol() {
+    throw Error("AW HECK");
+}
+
+lol();
