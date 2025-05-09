@@ -106,7 +106,9 @@ async function main() {
         core.debug(`Loading '${relativePath}'...`);
 
         try {
-            environments.push(new BonsaiEnvironment(environmentPath));
+            const environment = new BonsaiEnvironment(environmentPath);
+            environments.push(environment);
+            core.info(`Found Bonsai environment '${environment.relativePath}'`);
         } catch (error) {
             core.warning(`Bonsai environment at '${relativePath}' is invalid: ${error}`);
         }
