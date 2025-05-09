@@ -5,9 +5,10 @@ import * as glob from '@actions/glob';
 async function main() {
     const environmentPathPatterns = core.getInput('environment-paths', { required: true });
     console.log(`'${environmentPathPatterns}'`);
+    console.log(`cwd = '${process.cwd()}'`);
 
     console.log("Found environments:");
-    const environmentPaths = await glob.create(environmentPathPatterns);
+    const environmentPaths = await glob.create(environmentPathPatterns, { implicitDescendants: false });
     for await (const environmentPath of environmentPaths.globGenerator()) {
         console.log(`'${environmentPath}'`);
     }
