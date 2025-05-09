@@ -1,6 +1,15 @@
 import * as util from './util';
 import * as core from '@actions/core';
+import * as glob from '@actions/glob';
 
-console.log("Hello from main!");
-console.log(`Environment paths: '${core.getInput('environment-path', { required: true })}'`);
-util.test();
+async function main() {
+    console.log("Found environments:");
+    const environmentPaths = await glob.create(core.getInput('environment-path', { required: true }));
+    for await (const environmentPath of environmentPaths.globGenerator()) {
+        console.log(`'${environmentPath}'`);
+    }
+
+    util.test();
+}
+
+main();

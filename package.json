@@ -3,7 +3,10 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "npm run build-entrypoint -- src/main.ts --outfile=dist/main.js && npm run build-entrypoint -- src/post.ts --outfile=dist/post.js",
-    "build-entrypoint": "npx esbuild --bundle --platform=node --target=node20 --minify --sourcemap --sources-content=false"
+    "watch-main": "npm run build-entrypoint -- src/main.ts --outfile=dist/main.js --watch",
+    "watch-post": "npm run build-entrypoint -- src/post.ts --outfile=dist/post.js --watch",
+    "build-entrypoint": "esbuild --bundle --platform=node --target=node20 --minify --sourcemap --sources-content=false",
+    "verify": "tsc --noEmit"
   },
   "dependencies": {
     "@actions/cache": "^4.0.3",
