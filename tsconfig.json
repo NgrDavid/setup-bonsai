@@ -3,7 +3,9 @@
     "lib": ["ES2023"],
     "target": "es2022",
     "module": "node18",
-    "esModuleInterop": true,
+
+    //TODO: This is disabled for now as these aren't working in esbuild for some reason (probaly a config mistake, but not sure what.)
+    "allowSyntheticDefaultImports": false,
 
     "rootDir": "./src",
     "outDir": "./dist-tsc",
