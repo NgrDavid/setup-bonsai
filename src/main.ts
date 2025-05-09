@@ -3,13 +3,14 @@ import * as core from '@actions/core';
 import * as glob from '@actions/glob';
 
 async function main() {
+    const environmentPathPatterns = core.getInput('environment-paths', { required: true });
+    console.log(`'${environmentPathPatterns}'`);
+
     console.log("Found environments:");
-    const environmentPaths = await glob.create(core.getInput('environment-paths', { required: true }));
+    const environmentPaths = await glob.create(environmentPathPatterns);
     for await (const environmentPath of environmentPaths.globGenerator()) {
         console.log(`'${environmentPath}'`);
     }
-
-    util.test();
 }
 
 main();

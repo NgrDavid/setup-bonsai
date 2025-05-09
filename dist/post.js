@@ -1,2 +1,2 @@
-"use strict";console.log("Post action script!");function o(){throw Error("AW HECK")}o();
+"use strict";console.log("Post action script!");
 //# sourceMappingURL=post.js.map
