@@ -11,9 +11,9 @@ const xmlParser = new XMLParser({ ignoreAttributes: false });
 
 const inputs = {
     environmentPaths: core.getInput('environment-paths', { required: true }),
-    injectPackages: core.getInput('inject-packages'),
+    injectPackages: core.getMultilineInput('inject-packages'),
     enableCache: core.getBooleanInput('enable-cache', { required: true }),
-    useCommonPackageDirectory: core.getBooleanInput('use-common-package-directory', { required: true }),
+    enableCommonPackageDirectory: core.getBooleanInput('enable-common-package-directory', { required: true }),
 };
 
 class BonsaiVersion {
@@ -85,17 +85,23 @@ class BonsaiEnvironment {
     public redirectPackagesDirectory(targetDirectory: string): boolean {
         const sourceDirectory = path.join(this.rootPath, 'Packages');
         if (fs.existsSync(sourceDirectory)) {
-            core.warning(`Refusing to redirect packages directory for ${this.relativePath}, directory already exists.`);
-            return false;
+            if (util.actionIsUnderTest && fs.lstatSync(sourceDirectory).isSymbolicLink()) {
+                fs.unlinkSync(sourceDirectory);
+            } else {
+                core.warning(`Refusing to redirect packages for ${this.relativePath}, directory already exists.`);
+                return false;
+            }
         }
 
         fs.symlinkSync(targetDirectory, sourceDirectory, 'dir');
+        core.info(`Redirected packages for '${this.relativePath}' to '${targetDirectory}'`);
         return true;
     }
 }
 
 async function main() {
-    console.log(`env = ${JSON.stringify(process.env, null, 2)}`);
+    if (util.actionIsUnderTest)
+        core.warning("Action is in test mode!");
 
     // Enumerate environments
     let environments: BonsaiEnvironment[] = [];
@@ -114,10 +120,40 @@ async function main() {
         }
     }
 
-    // Unify packages directories
+    // Redirect package directories
     let commonPackageDirectoryPath = null;
-    if (inputs.useCommonPackageDirectory) {
-        //commonPackageDirectoryPath = util.getTemporaryPath(`CommonPackages${github.context.}`);
+    if (inputs.enableCommonPackageDirectory || inputs.enableCache) {
+        core.debug("Redirecting package directories...");
+
+        if (inputs.enableCommonPackageDirectory)
+            commonPackageDirectoryPath = util.getTemporaryPath(util.invocationId, 'Packages-Common');
+
+        for (const environment of environments) {
+            const targetPath = commonPackageDirectoryPath || util.getTemporaryPath(util.invocationId, `Packages-${environment.relativePath.replace(/[\/\\]/g, '#')}`, );
+            fs.mkdirSync(targetPath, { recursive: true });
+            environment.redirectPackagesDirectory(targetPath);
+        }
+    }
+
+    // Restore package cache
+    if (inputs.enableCache) {
+    }
+
+    // Inject packages
+    {
+        // Delete packages that maybe came from the cache
+        // Place the packages somewhere
+        // Add the somewhere as a local source to NuGet.config
+        // Update Bonsai.config
+        // - Add/replace any PackageConfiguration.Packages.Package elements
+        // - Delete any PackageConfiguration.Packages.AssemblyReference elements
+        // - Delete any PackageConfiguration.AssemblyReferences.AssemblyReference elements
+        // - Delete any PackageConfiguration.AssemblyLocations.AssemblyLocation elements
+    }
+
+    // Restore packages
+    {
+        // For each environment, run `Bonsai.exe --no-editor`
     }
 }
 

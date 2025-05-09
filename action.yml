@@ -10,7 +10,7 @@ inputs:
   enable-cache:
     description: 'Whether or not to cache the restored Bonsai environment.'
     default: 'true'
-  use-common-package-directory:
+  enable-common-package-directory:
     description: 'Whether to use a common package directory between all Bonsai environments to allow them to share packages.'
     default: 'true'
   #TODO
