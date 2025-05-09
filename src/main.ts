@@ -95,7 +95,7 @@ class BonsaiEnvironment {
 }
 
 async function main() {
-    console.log(`env = ${JSON.stringify(process.env)}`);
+    console.log(`env = ${JSON.stringify(process.env, null, 2)}`);
 
     // Enumerate environments
     let environments: BonsaiEnvironment[] = [];
