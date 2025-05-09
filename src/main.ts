@@ -105,7 +105,7 @@ async function main() {
 
     // Enumerate environments
     let environments: BonsaiEnvironment[] = [];
-    core.debug(`Enumerating environments from patterns:${inputs.environmentPaths}`);
+    core.debug(`Enumerating environments from patterns:\n${inputs.environmentPaths}`);
     const environmentPaths = await glob.create(inputs.environmentPaths, { implicitDescendants: false });
     for await (const environmentPath of environmentPaths.globGenerator()) {
         let relativePath = path.relative(process.cwd(), environmentPath);
