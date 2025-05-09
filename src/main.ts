@@ -9,9 +9,10 @@ async function main() {
 
     console.log("Found environments:");
     const environmentPaths = await glob.create(environmentPathPatterns, { implicitDescendants: false });
-    for await (const environmentPath of environmentPaths.globGenerator()) {
-        console.log(`'${environmentPath}'`);
-    }
+    console.log(await environmentPaths.glob());
+    //for await (const environmentPath of environmentPaths.globGenerator()) {
+    //    console.log(`'${environmentPath}'`);
+    //}
 }
 
 main();
